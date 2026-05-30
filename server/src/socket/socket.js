@@ -43,11 +43,11 @@ export const initSocket = async (server) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const user = await User.findById(decoded.id);
       if (!user) {
-        console.error(`Socket authentication error: User not found for id ${decoded.id}`);
+        console.error("Socket authentication error: User not found");
         return next(new Error("Authentication error: User not found"));
       }
       if ((decoded.version || 0) !== (user.tokenVersion || 0)) {
-        console.error(`Socket authentication error: Token invalidated for user ${decoded.id}`);
+        console.error("Socket authentication error: Token invalidated");
         return next(new Error("Authentication error: Token invalidated due to password reset"));
       }
       socket.userId = decoded.id;
